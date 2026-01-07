@@ -10,8 +10,7 @@ mkdir "__brcr"
 cd "__brcr"
 
 curl -L -o brcr-update \
-  https://raw.githubusercontent.com/moudot/brcr-update/refs/heads/master/brcr-update
-
+https://raw.githubusercontent.com/moudot/brcr-update-fork/refs/heads/main/brcr-update/brcr-update
 curl -L -o 7z.tar.xz \
   https://github.com/ip7z/7zip/releases/download/25.01/7z2501-linux-x64.tar.xz
 
