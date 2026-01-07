@@ -1,3 +1,7 @@
+# FORK OF BRCR-UPDATE
+
+This is a update of brcr-update who is outdated and not working anymore
+
 # brcr-update
 Script to update Chrome OS installed using the [brunch](https://github.com/sebanc/brunch) framework
 
