@@ -102,7 +102,7 @@ sudo curl --progress-bar -S -L -o "$workdir/$(echo $brunch_url | grep -o "[^/]*$
 echo "===> Downloading ChromeOS $build_num"
 sudo curl --progress-bar -S -L -o "$workdir/chromeos.bin.zip" "$build_url"
 echo "===> Unpacking ChromeOS .zip archive..."
-sudo unzip "$workdir/chromeos.bin.zip" || exit 2
+sudo unzip x "$workdir/chromeos.bin.zip" || exit 2
 sudo mv "$workdir/chromeos_"* "$workdir/chromeos.bin" || exit 2
 echo "===> Updating..."
 sudo chromeos-update -f "$workdir/$(echo $brunch_url | grep -o "[^/]*$")" -r "$workdir/chromeos.bin"
