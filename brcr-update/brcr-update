@@ -45,9 +45,6 @@ if [ -z "$brunch_url" ]; then _brunch=""; else _brunch="OK-$brunch_url"; fi
 echo "$cros"
 echo "DEBUG: cros='$cros' brunch_url='$brunch_url' _brunch length=$(_brunch | wc -c)"
 
-brunch="$(echo "$_brunch" | head -n 1 | sed 's/^[[:blank:]]*//' | cut -d " " -f 2- | tr -d '",')"
-brunch_url="$(echo "$_brunch" | grep --max-count 1 -o '"browser_download_url":.*' | sed 's/^[[:blank:]]*//' | cut -d " " -f 2- | tr -d '",')"
-
 if [[ -z "$brunch_url" || -z "$build_url" ]]; then
 	echo -e "\e[0;31mERROR: Failed to get url for brunch/recovery download. Check your internet connection, and if everything is fine, open an issue on GitHub\e[0m"
 	echo 'Debug output (attach this to issue)'
