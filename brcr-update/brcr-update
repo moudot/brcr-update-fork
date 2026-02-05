@@ -28,19 +28,18 @@ echo "===> Parsing..."
 echo "test0"
 string="$(grep -o '"url":.*/chromeos_.*_'${board}'_.*.bin\..*"' recovery.json | sort -V | tail -n 1)"
 info_string="$(grep -A 6 --max-count 1 "$string" ./recovery.json)"
-echo "info_string vide ? : ${#info_string}"
-echo "string vide ? : ${#string}"
+
 build_num="$(echo "$info_string" | grep --max-count 1 -o '"version":.*' | sed 's/^[[:blank:]]*//' | cut -d " " -f 2- | tr -d '",')"
 build_url="$(echo "$string" | sed 's/^[[:blank:]]*//' | cut -d " " -f 2- | tr -d '",')"
 cur_version="$(grep "CHROMEOS_RELEASE_VERSION=.*" "/etc/lsb-release" | cut -d "=" -f 2)"
 cur_brunch="$(cut -d " " -f 2- /etc/brunch_version)"
 cur_brunch="${cur_brunch// /-}"
 cur_cros="$(grep "CHROMEOS_RELEASE_CHROME_MILESTONE=.*" "/etc/lsb-release" | cut -d "=" -f 2)"
-echo "test"
+
 cros="$(echo "$info_string" | grep --max-count 1 -o '"chrome_version":.*' | sed 's/^[[:blank:]]*//' | cut -d " " -f 2- | tr -d '",' | cut -d "." -f 1)"
 _brunch="$(cat ./github | grep -i '"tag_name".*r'"${cros}"'.*stable' | head -100)"
-echo "$_brunch"
-echo "$cros"
+echo "voici brunch $_brunch"
+echo "voici cros $cros"
 if [ -z "$_brunch" ]; then
 	echo -e "\e[0;31mThe brunch update for r${cur_cros} version of Chrome OS has not yet been released\e[0m"
 	exit 0
