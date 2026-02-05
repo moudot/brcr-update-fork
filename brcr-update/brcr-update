@@ -37,7 +37,7 @@ cur_brunch="$(cut -d " " -f 2- /etc/brunch_version)"
 cur_brunch="${cur_brunch// /-}"
 cur_cros="$(grep "CHROMEOS_RELEASE_CHROME_MILESTONE=.*" "/etc/lsb-release" | cut -d "=" -f 2)"
 
-cros="${cur_cros}"
+cros="$(echo "$info_string" | grep --max-count 1 -o '"chrome_version":.*' | sed 's/^[[:blank:]]*//' | cut -d " " -f 2
 
 _brunch="$(cat ./github | grep -A 45 '"tag_name":.*r'${cros}'-stable.*')"
 if [ -z "$_brunch" ]; then
