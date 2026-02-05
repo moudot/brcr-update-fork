@@ -23,8 +23,9 @@ board="$(grep "CHROMEOS_RELEASE_DESCRIPTION=.*" "/etc/lsb-release" | rev | cut -
 board=$board
 board="${board% *}"
 echo "===> Downloading brunch releases information"
+: > "$workdir/github"
 for page in 1 2 3; do
-	sudo curl --progress-bar -S -L -o "$workdir/github" "${github}?per_page=30&page=${page}" || exit 2
+	sudo curl --progress-bar -S -L "${github}?per_page=30&page=${page}" >> "$workdir/github" || exit 2
 done
 echo "===> Parsing..."
 string="$(grep -o '"url":.*/chromeos_.*_'${board}'_.*.bin\\..*"' recovery.json | sort -V | tail -n 1)"
