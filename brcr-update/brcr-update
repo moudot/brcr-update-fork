@@ -42,6 +42,7 @@ cur_cros="$(grep "CHROMEOS_RELEASE_CHROME_MILESTONE=.*" "/etc/lsb-release" | cut
 cros="${cur_cros}"
 _brunch_content="$(cat ./github | grep -A20 '"tag_name":"r'"${cros}"'-stable[^"]*"' | grep -o '"browser_download_url":"https://[^"]*"')"
 brunch_url="$(echo "$_brunch_content" | head -1 | sed 's/.*https:\/\///;s/".*//' )"
+
 echo "DEBUG: cros='$cros' brunch_url='$brunch_url'"
 
 
