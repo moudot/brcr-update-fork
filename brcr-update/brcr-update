@@ -15,8 +15,10 @@ github="https://api.github.com/repos/sebanc/brunch/releases"
 #	read -p "> "
 #fi
 [ -d "$workdir" ] || sudo mkdir -p "$workdir"
+sudo chown $USER "$workdir"
 [ -n "$(uname -m | grep "i.*86")" ] && { echo "ERROR: your device CPU is x86. Latest brunch is incompatible with x86.)"; exit 1; }
 cd $workdir
+
 echo "===> Downloading recovery.json file"
 sudo curl --progress-bar -S -L -o "$workdir"/recovery.json "$url" || exit 2
 board="$(grep "CHROMEOS_RELEASE_DESCRIPTION=.*" "/etc/lsb-release" | rev | cut -d " " -f 1,2 | rev)"
