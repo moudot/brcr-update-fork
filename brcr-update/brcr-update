@@ -23,9 +23,11 @@ board="$(grep "CHROMEOS_RELEASE_DESCRIPTION=.*" "/etc/lsb-release" | rev | cut -
 board=$board
 board="${board% *}"
 echo "===> Downloading brunch releases information"
-sudo curl --progress-bar -S -L -o "$workdir"/github "$github" || exit 2
+for page in 1 2 3; do
+	sudo curl --progress-bar -S -L -o "$workdir/github" "${github}?per_page=30&page=${page}" || exit 2
+done
 echo "===> Parsing..."
-string="$(grep -o '"url":.*/chromeos_.*_'${board}'_.*.bin\..*"' recovery.json | sort -V | tail -n 1)"
+string="$(grep -o '"url":.*/chromeos_.*_'${board}'_.*.bin\\..*"' recovery.json | sort -V | tail -n 1)"
 info_string="$(grep -A 6 --max-count 1 "$string" ./recovery.json)"
 build_num="$(echo "$info_string" | grep --max-count 1 -o '"version":.*' | sed 's/^[[:blank:]]*//' | cut -d " " -f 2- | tr -d '",')"
 build_url="$(echo "$string" | sed 's/^[[:blank:]]*//' | cut -d " " -f 2- | tr -d '",')"
@@ -37,9 +39,10 @@ cur_cros="$(grep "CHROMEOS_RELEASE_CHROME_MILESTONE=.*" "/etc/lsb-release" | cut
 cros="$(echo "$info_string" | grep --max-count 1 -o '"chrome_version":.*' | sed 's/^[[:blank:]]*//' | cut -d " " -f 2- | tr -d '",' | cut -d "." -f 1)"
 _brunch="$(cat ./github | grep -A 45 '"tag_name":.*r'${cros}'-stable.*')"
 if [ -z "$_brunch" ]; then
-	echo -e "\e[0;31mThe brunch update for r${cur_cros} version of Chrome OS has not yet been released\e[0m"
+	echo -e "\\e[0;31mThe brunch update for r${cur_cros} version of Chrome OS has not yet been released\\e[0m"
 	exit 0
 fi
+
 brunch="$(echo "$_brunch" | head -n 1 | sed 's/^[[:blank:]]*//' | cut -d " " -f 2- | tr -d '",')"
 brunch_url="$(echo "$_brunch" | grep --max-count 1 -o '"browser_download_url":.*' | sed 's/^[[:blank:]]*//' | cut -d " " -f 2- | tr -d '",')"
 
