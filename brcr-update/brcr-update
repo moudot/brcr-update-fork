@@ -43,6 +43,7 @@ cros="${cur_cros}"
 brunch_url="$(cat ./github | grep -A 20 '"tag_name":.*r'"${cros}"'-stable' | grep -o '"browser_download_url":"[^"]*"' | head -1 | cut -d '"' -f 4)"
 if [[ -z "$brunch_url" ]]; then _brunch=""; else _brunch="OK"; fi
 echo "$cros"
+echo "DEBUG: cros='$cros' brunch_url='$brunch_url' _brunch length=$(_brunch | wc -c)"
 if [ -z "$_brunch" ]; then
 	echo -e "\\e[0;31mThe brunch update for r${cur_cros} version of Chrome OS has not yet been released\\e[0m"
 	exit 0
