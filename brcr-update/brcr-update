@@ -25,7 +25,7 @@ board="$(grep "CHROMEOS_RELEASE_DESCRIPTION=.*" "/etc/lsb-release" | rev | cut -
 board=$board
 board="${board% *}"
 echo "===> Downloading brunch releases information"
-: > "$workdir/github"
+sudo rm -f "$workdir/github"
 for page in 1 2 3; do
 	sudo curl --progress-bar -S -L "${github}?per_page=30&page=${page}" >> "$workdir/github" || exit 2
 done
