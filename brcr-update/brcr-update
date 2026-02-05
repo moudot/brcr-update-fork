@@ -36,6 +36,7 @@ cur_cros="$(grep "CHROMEOS_RELEASE_CHROME_MILESTONE=.*" "/etc/lsb-release" | cut
 
 cros="$(echo "$info_string" | grep --max-count 1 -o '"chrome_version":.*' | sed 's/^[[:blank:]]*//' | cut -d " " -f 2- | tr -d '",' | cut -d "." -f 1)"
 _brunch="$(cat ./github | grep -i '"tag_name".*r'"${cros}"'.*stable' | head -100)"
+echo "$_brunch"
 if [ -z "$_brunch" ]; then
 	echo -e "\e[0;31mThe brunch update for r${cur_cros} version of Chrome OS has not yet been released\e[0m"
 	exit 0
