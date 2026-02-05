@@ -40,12 +40,13 @@ cur_brunch="${cur_brunch// /-}"
 cur_cros="$(grep "CHROMEOS_RELEASE_CHROME_MILESTONE=.*" "/etc/lsb-release" | cut -d "=" -f 2)"
 
 cros="${cur_cros}"
-brunch_url="$(cat ./github | grep -A20 '"tag_name":"r'"${cros}"'-stable[^"]*"' | grep -o '"browser_download_url":"https://[^"]*"' | head -1 | sed 's/.*"https:/https:/;s/"$//' )"
-if [ -z "$brunch_url" ]; then _brunch=""; else _brunch="OK-$brunch_url"; fi
+_brunch_content="$(cat ./github | grep -A20 '"tag_name":"r'"${cros}"'-stable[^"]*"' | grep -o '"browser_download_url":"https://[^"]*"')"
+brunch_url="$(echo "$_brunch_content" | head -1 | sed 's/.*https:\/\///;s/".*//')"
+
 echo "$cros"
 echo "DEBUG: cros='$cros' brunch_url='$brunch_url' _brunch length=$(_brunch | wc -c)"
 
-if [[ -z "$brunch_url" || -z "$build_url" ]]; then
+if [ -z "$brunch_url" ] || [ -z "$build_url" ]; then
 	echo -e "\e[0;31mERROR: Failed to get url for brunch/recovery download. Check your internet connection, and if everything is fine, open an issue on GitHub\e[0m"
 	echo 'Debug output (attach this to issue)'
 	echo '----------'
