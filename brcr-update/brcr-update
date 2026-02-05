@@ -37,7 +37,7 @@ cur_brunch="${cur_brunch// /-}"
 cur_cros="$(grep "CHROMEOS_RELEASE_CHROME_MILESTONE=.*" "/etc/lsb-release" | cut -d "=" -f 2)"
 
 cros="$(echo "$info_string" | grep --max-count 1 -o '"chrome_version":.*' | sed 's/^[[:blank:]]*//' | cut -d " " -f 2- | tr -d '",' | cut -d "." -f 1)"
-_brunch="$(cat ./github | grep -i '"tag_name".*r'"${cros}"'.*stable' | head -100)"
+_brunch="$(cat ./github | grep -m1 '"tag_name":"r143-stable' | grep -A45 '"browser_download_url"' | grep -m1 '"browser_download_url"' | cut -d '"' -f4)"
 echo "voici brunch $_brunch"
 echo "voici cros $cros"
 if [ -z "$_brunch" ]; then
